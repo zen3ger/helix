@@ -7,11 +7,13 @@ members = [
   "helix-lsp",
   "helix-dap",
   "helix-loader",
+  "helix-daemon",
   "xtask",
 ]
 
 default-members = [
-  "helix-term"
+  "helix-term",
+  "helix-daemon",
 ]
 
 [profile.dev]

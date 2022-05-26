@@ -1,0 +1,53 @@
+[package]
+name = "helix-daemon"
+version = "0.1.0"
+authors = ["Blaž Hrastnik <blaz@mxxn.io>", "Roland Kovács <zen3ger@tutanota.com>"]
+edition = "2021"
+license = "MPL-2.0"
+categories = ["editor", "command-line-utilities"]
+repository = "https://github.com/helix-editor/helix"
+homepage = "https://helix-editor.com"
+default-run = "hxd"
+
+[package.metadata.nix]
+build = true
+app = true
+
+[lib]
+name = "helix_daemon"
+path = "src/lib.rs"
+
+[[bin]]
+name = "hxd"
+path = "src/bin/hxd.rs"
+
+[[bin]]
+name = "hxc"
+path = "src/bin/hxc.rs"
+
+[dependencies]
+helix-core = { version = "0.6", path = "../helix-core" }
+# helix-view = { version = "0.6", path = "../helix-view" }
+helix-lsp = { version = "0.6", path = "../helix-lsp" }
+# helix-dap = { version = "0.6", path = "../helix-dap" }
+helix-loader = { version = "0.6", path = "../helix-loader" }
+
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "io-util", "io-std", "time", "process", "macros", "net", "fs", "parking_lot"] }
+tokio-seqpacket = "0.5"
+serde = { version = "1.0", features = ["derive"] }
+anyhow = "1"
+bincode = "1"
+signal-hook = "0.3"
+futures-util = { version = "0.3", features = ["std", "async-await"], default-features = false }
+smallstr = { version = "0.3.0", features = ["std"] }
+
+# Logging
+fern = "0.6"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+log = "0.4"
+
+[target.'cfg(not(windows))'.dependencies]  # https://github.com/vorner/signal-hook/issues/100
+signal-hook-tokio = { version = "0.3", features = ["futures-v0_3"] }
+
+[build-dependencies]
+helix-loader = { version = "0.6", path = "../helix-loader" }
